@@ -1,0 +1,6 @@
+V41 - Fix dashboard visit count
+
+1. Dashboard counters start at 0 and are overwritten only after a fresh GET /api/visits.
+2. Dashboard performs an explicit SQL refresh after DOM ready and retries once after 700ms if needed.
+3. /api/visits reads the Visits table independently from VisitImages, preventing an old image-table schema from blocking the visit list/count.
+4. The API returns X-EHS-Visits-Count for diagnostics.

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دليل الموظفين - EHS</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-logo">EHS</div><div><strong>EHS</strong><span>Prototype</span></div></div>
+    <nav>
+      <a class="nav-item" href="index.html"><span>▣</span> لوحة التحكم</a>
+      <a class="nav-item" href="new-visit.html"><span>⌖</span> الزيارات الميدانية</a>
+      <a class="nav-item" href="responsibles.html"><span>♙</span> دليل المسؤولين</a>
+      <a class="nav-item active" href="employees.html"><span>♟</span> دليل الموظفين</a>
+      <a class="nav-item" href="reports.html"><span>▥</span> التقارير</a>
+      <a class="nav-item" href="index.html#identity"><span>⌂</span> الهوية المؤسسية</a>
+    </nav>
+    <a class="logout" href="index.html"><span>⇥</span> العودة للرئيسية</a>
+  </aside>
+
+  <main class="main">
+      <header class="header">
+          <div class="title-area">
+              <h1>دليل الموظفين</h1>
+              <div class="crumb">لوحة التحكم <b>‹</b> دليل الموظفين</div>
+          </div>      <div class="header-actions"><a class="back-btn" href="index.html">← العودة للرئيسية</a></div>
+
+      </header>
+
+    <section class="kpis employee-kpis">
+      <div class="kpi">
+        <div class="kpi-icon blue">♟</div>
+        <div><span>الموظفون</span><strong id="employeeCount">0</strong><small>موظفون مسجلون</small></div>
+      </div>
+    </section>
+
+    <section id="employeeFormCard" class="panel page-panel employee-form-card hidden">
+      <div class="panel-head"><div><h2>إضافة موظف</h2><small>أضف اسم الموظف وسيتم ربط زياراته تلقائيًا.</small></div></div>
+      <form id="employeeForm">
+        <div class="form-grid">
+          <label>اسم الموظف *<input id="employeeName" required placeholder="اكتب اسم الموظف"></label>
+        </div>
+        <div class="form-actions">
+          <button type="button" id="cancelEmployee" class="secondary">إلغاء</button>
+          <button type="submit" class="primary">حفظ الموظف</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel page-panel">
+      <div class="panel-head">
+        <h2>بيانات الموظفين</h2>
+        <input id="employeeSearch" class="table-search" placeholder="بحث باسم الموظف..." type="search">
+      </div>
+      <div class="table-wrap">
+        <table class="data-table employee-table">
+          <thead><tr><th>اسم الموظف</th><th>عدد الزيارات</th><th>المراكز التي زارها</th></tr></thead>
+          <tbody id="employeesBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div id="facilityDatesModal" class="facility-dates-modal" aria-hidden="true">
+      <div class="facility-dates-backdrop" data-close-facility-dates></div>
+      <div class="facility-dates-dialog" role="dialog" aria-modal="true" aria-labelledby="facilityDatesTitle">
+        <div class="facility-dates-head">
+          <div><h2 id="facilityDatesTitle">تواريخ الزيارات</h2><small id="facilityDatesEmployee"></small></div>
+          <button type="button" class="facility-dates-close" data-close-facility-dates aria-label="إغلاق">×</button>
+        </div>
+        <div id="facilityDatesBody" class="facility-dates-body"></div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="js/auth.js?v=20260910-user-ui"></script><script src="js/db-api.js?v=23"></script>
+<script src="js/employees.js"></script>
+</body>
+</html>

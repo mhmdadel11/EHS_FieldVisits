@@ -1,0 +1,1 @@
+V42: Dashboard visit KPI reads directly from /api/visits/count in SQL Server, independent of localStorage/date-filter rendering.

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-store,no-cache,must-revalidate,max-age=0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>التقارير - EHS</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+.report-page{margin-top:18px}
+.report-choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.report-choice{width:100%;min-height:92px;border:1px solid #dfe6ef;background:#fff;border-radius:14px;display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;text-align:right;color:#102a43;transition:.15s}
+.report-choice:hover{border-color:#2580ff}.report-choice.active{border-color:#2580ff;box-shadow:0 0 0 1px #2580ff;background:#fbfdff}
+.report-choice-icon{width:44px;height:44px;border-radius:12px;background:#edf4ff;color:#2580ff;display:flex;align-items:center;justify-content:center;font-size:21px;flex:0 0 44px}
+.report-choice strong{display:block;font-size:17px;margin-bottom:5px}.report-choice small{display:block;color:#8793a3;font-size:11px}
+.report-section{background:#fff;border:1px solid #e1e6ed;border-radius:14px;padding:18px;box-shadow:0 1px 2px rgba(20,40,70,.02)}
+.report-section.hidden-section{display:none!important}
+.report-section-head{display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid #edf0f4;padding-bottom:15px;margin-bottom:15px}
+.report-section-head h2{margin:0;font-size:19px}.report-section-head p{margin:5px 0 0;color:#788395;font-size:12px}
+.report-form-box{background:#fff;border:1px dashed #cfd9e6;border-radius:12px;padding:16px;margin-bottom:16px}
+.report-form-box.hidden{display:none!important}
+.report-form-box .row{display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"title dates" "facility ." "file .";gap:16px;align-items:end}
+.report-form-box label{display:flex;flex-direction:column;gap:7px;font-size:12px;color:#344054;font-weight:500}.report-form-box .field-title{grid-area:title}.report-form-box .field-dates{grid-area:dates}.report-form-box .field-facility{grid-area:facility}.report-form-box .field-file{grid-area:file}
+.report-form-box input,.report-form-box select{width:100%;box-sizing:border-box;height:42px;border:1px solid #dfe5ed;border-radius:9px;padding:0 12px;font:inherit;font-size:13px;background:#fff;color:#172033}
+.report-form-box input[type=file]{height:auto;padding:9px 10px}
+.report-form-box select{cursor:pointer}
+.report-facility-filter{direction:rtl;display:flex;align-items:flex-end;gap:10px;width:100%;margin:0 0 9px;padding:10px;background:#f7f9fc;border:1px solid #e3e9f1;border-radius:9px;box-sizing:border-box}
+.report-facility-filter label{flex:1 1 0;min-width:0;margin:0;font-size:10px;color:#344054;font-weight:700}
+.report-facility-filter input,.report-facility-filter select{display:block;width:100%;height:36px;margin-top:5px;padding:0 9px;border:1px solid #cfd9e6;border-radius:7px;background:#fff;color:#172033;font-family:inherit;font-size:11px;box-sizing:border-box;outline:none}
+.report-facility-filter input:focus,.report-facility-filter select:focus{border-color:#4b82bb;box-shadow:0 0 0 3px rgba(75,130,187,.10)}
+.report-facility-filter button{flex:0 0 78px;width:78px;height:36px;border:0;border-radius:7px;background:#315d82;color:#fff;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer}
+.report-facility-count{display:block;color:#718096;font-size:9px;font-weight:400;margin-top:5px}
+.report-form-box .full{grid-column:1/-1}
+.report-form-box .date-range{display:flex;align-items:center;gap:8px;direction:rtl;background:#f8fafc;border:1px solid #e1e6ed;border-radius:11px;padding:6px 8px;box-sizing:border-box;height:43px}
+.report-form-box .date-range-item{display:flex;align-items:center;gap:5px;flex:1;min-width:0}.report-form-box .date-range-item span{color:#596477;font-size:11px;white-space:nowrap;font-weight:400}.report-form-box .date-range-item input{flex:1;min-width:0;height:31px;border:1px solid #dce3eb;border-radius:7px;padding:0 7px;font:inherit;font-size:11px;background:#fff;box-sizing:border-box}.report-form-box .date-range-item + .date-range-item:before{content:"←";color:#8a94a3;font-size:11px;margin:0 1px}
+
+.upload-box{border:1px solid #e5eaf1;background:#fafbfd;border-radius:9px;padding:10px 12px}
+.upload-box small{display:block;color:#7b8492;font-size:10px;margin-top:6px}.generated-note{min-height:42px}
+.report-form-actions{display:flex;gap:8px;justify-content:flex-start;margin-top:16px}
+.report-list{display:flex;flex-direction:column;gap:12px}.report-item{border:1px solid #e3e8ef;border-radius:11px;padding:15px;background:#fff}
+.report-item-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.report-item h3{margin:6px 0;font-size:17px}.report-item .meta{color:#788395;font-size:11px}
+.report-type{display:inline-block;background:#edf5ff;color:#2676dc;border-radius:14px;padding:4px 9px;font-size:10px}
+.report-file{display:flex;align-items:center;gap:10px;border:1px solid #e2e7ee;background:#fafbfd;border-radius:9px;padding:9px 11px;margin-top:12px}.report-file>div{flex:1}.report-file strong{display:block;font-size:12px}.report-file small{display:block;color:#7b8492;font-size:10px;margin-top:3px}
+.empty-report{padding:24px;text-align:center;color:#7b8492;background:#fafbfd;border:1px dashed #d8e0e9;border-radius:10px;font-size:13px}.save-error{display:none;background:#fff1f1;border:1px solid #f3b9b9;color:#b42318;border-radius:9px;padding:10px;margin-bottom:12px;font-size:12px}
+@media(max-width:800px){.report-choice-grid{grid-template-columns:1fr}.report-form-box .row{grid-template-columns:1fr;grid-template-areas:"title" "dates" "facility" "file"}.report-form-box .date-range{flex-wrap:nowrap}.report-section-head{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar"><div class="brand"><div class="brand-logo">EHS</div><div><strong>EHS</strong><span>Prototype</span></div></div><nav>
+<a class="nav-item" href="index.html"><span>▣</span> لوحة التحكم</a>
+<a class="nav-item" href="new-visit.html"><span>⌖</span> الزيارات الميدانية</a>
+<a class="nav-item" href="responsibles.html"><span>♙</span> دليل المسؤولين</a>
+<a class="nav-item" href="employees.html"><span>♟</span> دليل الموظفين</a>
+<a class="nav-item active" href="reports.html"><span>▥</span> التقارير</a>
+<a class="nav-item" href="index.html#identity"><span>⌂</span> الهوية المؤسسية</a>
+</nav></aside>
+<main class="main">
+<header class="header"><div class="title-area"><h1>التقارير</h1><div class="crumb">لوحة التحكم <b>›</b> التقارير</div></div><div class="header-actions"><a class="back-btn" href="index.html">← العودة للرئيسية</a></div></header>
+<div class="report-page">
+<div class="report-choice-grid">
+<button type="button" class="report-choice active" id="visitChoice"><span class="report-choice-icon">▣</span><span><strong>تقرير زيارة</strong><small>إنشاء وعرض تقارير الزيارات فقط</small></span></button>
+<button type="button" class="report-choice" id="monthlyChoice"><span class="report-choice-icon">▤</span><span><strong>تقرير شهري</strong><small>إنشاء وعرض التقارير الشهرية فقط</small></span></button>
+</div>
+<section class="report-section" id="visitSection">
+<div class="report-section-head"><div><h2>تقارير الزيارات</h2><p>ينشئ تقرير PowerPoint تلقائيًا من كل الزيارات الخاصة بالمنشأة داخل الفترة المحددة، ثم يحفظه ويبدأ تنزيله على جهازك.</p></div><button id="addVisitBtn" class="primary" type="button">+ إضافة تقرير زيارة</button></div>
+<form id="visitForm" class="report-form-box hidden"><div id="visitError" class="save-error"></div><div class="row">
+<label class="field-title">عنوان التقرير *<input id="visitTitle" required placeholder="مثال: تقرير زيارة مستشفى القاسمي"></label>
+<label class="field-dates">فترة الزيارة *<span class="date-range"><span class="date-range-item"><span>من</span><input id="visitDateFrom" type="date" required></span><span class="date-range-item"><span>إلى</span><input id="visitDateTo" type="date" required></span></span></label>
+<label class="field-facility">المنشأة *
+  <div class="report-facility-filter" id="reportFacilityFilter">
+    <label>البحث
+      <input id="reportFacilitySearch" type="search" placeholder="اكتب اسم المنشأة..." autocomplete="off">
+    </label>
+    <label>الإمارة
+      <select id="reportFacilityEmirate"><option value="">كل الإمارات</option></select>
+    </label>
+    <label>نوع المنشأة
+      <select id="reportFacilityType"><option value="">كل الأنواع</option></select>
+    </label>
+    <button type="button" id="reportFacilitySearchBtn">بحث</button>
+  </div>
+  <span id="reportFacilityCount" class="report-facility-count">عدد المنشآت المطابقة: 0</span>
+  <select id="visitFacility" required><option value="">اختر المنشأة</option></select>
+</label>
+<label class="field-file generated-note">ملف التقرير<span class="upload-box"><small>سيتم إنشاء ملف PowerPoint تلقائيًا من الزيارات المطابقة للفترة والمنشأة المحددة.</small></span></label>
+</div><div class="report-form-actions"><button class="secondary" id="cancelVisit" type="button">إلغاء</button><button class="primary" type="submit">إنشاء تقرير الزيارة</button></div></form>
+<div id="visitList" class="report-list"></div>
+</section>
+<section class="report-section hidden-section" id="monthlySection">
+<div class="report-section-head"><div><h2>التقارير الشهرية</h2><p>ينشئ تقرير PowerPoint تلقائيًا من جميع الزيارات داخل الفترة المحددة، ثم يحفظه ويبدأ تنزيله على جهازك.</p></div><button id="addMonthlyBtn" class="primary" type="button">+ إضافة تقرير شهري</button></div>
+<form id="monthlyForm" class="report-form-box hidden"><div id="monthlyError" class="save-error"></div><div class="row">
+<label class="field-title">عنوان التقرير *<input id="monthlyTitle" required placeholder="مثال: التقرير الشهري سبتمبر 2026"></label>
+<label class="field-dates">فترة التقرير *<span class="date-range"><span class="date-range-item"><span>من</span><input id="monthlyFrom" type="date" required></span><span class="date-range-item"><span>إلى</span><input id="monthlyTo" type="date" required></span></span></label>
+<label class="field-file generated-note">ملف التقرير<span class="upload-box"><small>سيتم إنشاء ملف PowerPoint تلقائيًا من جميع الزيارات المطابقة للفترة المحددة.</small></span></label>
+</div><div class="report-form-actions"><button class="secondary" id="cancelMonthly" type="button">إلغاء</button><button class="primary" type="submit">إنشاء التقرير الشهري</button></div></form>
+<div id="monthlyList" class="report-list"></div>
+</section>
+</div></main></div>
+<div style="position:fixed;left:8px;bottom:8px;font:11px Arial;color:#777;background:#fff;padding:4px 7px;border:1px solid #ddd;border-radius:5px;z-index:9999">REPORTS POWERPOINT V24 + FACILITY SEARCH</div>
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+<script src="js/facilities.js?v=37"></script>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today = new Date().toISOString().slice(0,10);
+function fmt(v){if(!v)return '-';const d=new Date(String(v).length===10?v+'T00:00:00':v);return Number.isNaN(d.getTime())?String(v):d.toLocaleDateString('ar-AE');}
+async function readResponse(r){const text=await r.text();let data=null;try{data=text?JSON.parse(text):null}catch{}if(!r.ok)throw new Error(data?.detail||data?.message||data?.title||text||('HTTP '+r.status));return data;}
+function showError(id,msg){const e=$(id);e.textContent=msg;e.style.display='block';}
+function clearError(id){const e=$(id);e.textContent='';e.style.display='none';}
+function safeName(name){return String(name||'تقرير').replace(/[\\/:*?"<>|]+/g,'-').replace(/\s+/g,' ').trim().slice(0,90)||'تقرير';}
+function pptDate(v){if(!v)return '-';const d=new Date(String(v).length===10?v+'T00:00:00':v);return Number.isNaN(d.getTime())?String(v):d.toLocaleDateString('ar-AE',{day:'2-digit',month:'2-digit',year:'numeric'});}
+function clamp(n){return Math.max(0,Math.min(100,Number(n)||0));}
+function avg(list){return list.length?Math.round(list.reduce((a,v)=>a+clamp(v.compliance),0)/list.length):0;}
+function statusLabel(v){return v?.status||'غير محدد';}
+function normalize(s){return String(s||'').trim().toLocaleLowerCase('ar');}
+function inRange(v,from,to){const d=String(v?.date||'').slice(0,10);return !!d&&d>=from&&d<=to;}
+
+async function fetchVisits(){
+  const rows=await readResponse(await fetch('/api/visits?ts='+Date.now(),{cache:'no-store',credentials:'same-origin',headers:{Accept:'application/json'}}));
+  return Array.isArray(rows)?rows:[];
+}
+
+async function blobToDataUrl(blob){
+  return await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(r.error||new Error('تعذر قراءة الصورة'));r.readAsDataURL(blob);});
+}
+async function fetchImageData(url){
+  try{
+    const r=await fetch(url,{cache:'no-store',credentials:'same-origin'});
+    if(!r.ok)return null;
+    const b=await r.blob();
+    if(!String(b.type||'').startsWith('image/'))return null;
+    return await blobToDataUrl(b);
+  }catch{return null;}
+}
+
+function addHeader(pptx,slide,title,sub){
+  const navy='163A63',gray='667085';
+  slide.addText(title,{x:.55,y:.35,w:12.2,h:.5,fontFace:'Arial',fontSize:22,bold:true,color:navy,align:'right',rtlMode:true,margin:0});
+  if(sub)slide.addText(sub,{x:.55,y:.9,w:12.2,h:.3,fontFace:'Arial',fontSize:10,color:gray,align:'right',rtlMode:true,margin:0});
+  slide.addShape(pptx.ShapeType.line,{x:.55,y:1.25,w:12.2,h:0,line:{color:'D9E0E8',width:1}});
+}
+function addKeyValue(slide,pptx,label,value,x,y,w=5.65){
+  slide.addShape(pptx.ShapeType.roundRect,{x,y,w,h:.62,rectRadius:.06,fill:{color:'FFFFFF'},line:{color:'E2E7EE',width:1}});
+  slide.addText(label,{x:x+.18,y:y+.09,w:2.0,h:.2,fontFace:'Arial',fontSize:9,color:'667085',align:'right',rtlMode:true,margin:0});
+  slide.addText(String(value??'-'),{x:x+2.15,y:y+.07,w:w-2.35,h:.25,fontFace:'Arial',fontSize:11,bold:true,color:'222222',align:'right',rtlMode:true,margin:0});
+}
+function addTextBlock(slide,pptx,label,value,y){
+  slide.addText(label,{x:.65,y,w:12,h:.3,fontFace:'Arial',fontSize:14,bold:true,color:'163A63',align:'right',rtlMode:true,margin:0});
+  slide.addShape(pptx.ShapeType.roundRect,{x:.65,y:y+.38,w:12,h:1.05,rectRadius:.05,fill:{color:'F5F7FA'},line:{color:'E1E6ED',width:1}});
+  slide.addText(String(value||'لا يوجد'),{x:.9,y:y+.59,w:11.5,h:.65,fontFace:'Arial',fontSize:11,color:'333333',align:'right',valign:'mid',rtlMode:true,margin:.02,fit:'shrink'});
+}
+
+async function generateReportPowerPoint({kind,title,from,to,facility,visits}){
+  if(typeof PptxGenJS==='undefined')throw new Error('تعذر تحميل مكتبة PowerPoint. تأكد من اتصال الإنترنت ثم أعد المحاولة.');
+  const pptx=new PptxGenJS();
+  pptx.layout='LAYOUT_WIDE';
+  pptx.author='EHS'; pptx.company='EHS'; pptx.lang='ar-SA';
+  pptx.subject=kind==='visit'?'تقرير زيارات منشأة':'تقرير زيارات شهري';
+  pptx.title=title;
+  pptx.theme={headFontFace:'Arial',bodyFontFace:'Arial',lang:'ar-SA'};
+  const W=13.333,H=7.5,navy='163A63',gray='667085',green='20A464',red='E0524D';
+  const facilityText=facility||'جميع المنشآت';
+  const sorted=[...visits].sort((a,b)=>String(a.date).localeCompare(String(b.date))||Number(a.id||0)-Number(b.id||0));
+
+  // Cover
+  let slide=pptx.addSlide(); slide.background={color:'F7F9FC'};
+  slide.addText(kind==='visit'?'تقرير زيارات المنشأة':'التقرير الشهري للزيارات',{x:.7,y:1.25,w:11.9,h:.65,fontFace:'Arial',fontSize:29,bold:true,color:navy,align:'right',rtlMode:true,margin:0});
+  slide.addText(title,{x:.7,y:2.05,w:11.9,h:.65,fontFace:'Arial',fontSize:23,bold:true,color:'222222',align:'right',rtlMode:true,margin:0});
+  slide.addText(`الفترة: ${pptDate(from)} إلى ${pptDate(to)}`,{x:.7,y:2.9,w:11.9,h:.35,fontFace:'Arial',fontSize:14,color:gray,align:'right',rtlMode:true,margin:0});
+  slide.addText(`المنشأة: ${facilityText}`,{x:.7,y:3.35,w:11.9,h:.35,fontFace:'Arial',fontSize:14,color:gray,align:'right',rtlMode:true,margin:0});
+  slide.addText(String(sorted.length),{x:8.85,y:4.35,w:3.6,h:1.0,fontFace:'Arial',fontSize:38,bold:true,color:navy,align:'center',margin:0});
+  slide.addText('إجمالي الزيارات في الفترة',{x:8.85,y:5.25,w:3.6,h:.35,fontFace:'Arial',fontSize:12,color:gray,align:'center',rtlMode:true,margin:0});
+  slide.addText(`${avg(sorted)}%`,{x:4.55,y:4.35,w:3.6,h:1.0,fontFace:'Arial',fontSize:38,bold:true,color:avg(sorted)>=80?green:red,align:'center',margin:0});
+  slide.addText('متوسط نسبة الالتزام',{x:4.55,y:5.25,w:3.6,h:.35,fontFace:'Arial',fontSize:12,color:gray,align:'center',rtlMode:true,margin:0});
+
+  // Summary
+  slide=pptx.addSlide(); addHeader(pptx,slide,'ملخص التقرير',`${facilityText} — ${pptDate(from)} إلى ${pptDate(to)}`);
+  const counts={}; sorted.forEach(v=>{const s=statusLabel(v);counts[s]=(counts[s]||0)+1;});
+  addKeyValue(slide,pptx,'عدد الزيارات',sorted.length,6.75,1.55);
+  addKeyValue(slide,pptx,'متوسط الالتزام',`${avg(sorted)}%`,.7,1.55);
+  addKeyValue(slide,pptx,'ملتزم',counts['ملتزم']||0,6.75,2.35);
+  addKeyValue(slide,pptx,'بحاجة متابعة',counts['بحاجة متابعة']||0,.7,2.35);
+  addKeyValue(slide,pptx,'غير ملتزم',counts['غير ملتزم']||0,6.75,3.15);
+  const facilities=[...new Set(sorted.map(v=>String(v.facility||'').trim()).filter(Boolean))];
+  addKeyValue(slide,pptx,'عدد المنشآت',facilities.length,.7,3.15);
+  slide.addText('المنشآت المشمولة',{x:.7,y:4.15,w:5.65,h:.3,fontFace:'Arial',fontSize:14,bold:true,color:navy,align:'right',rtlMode:true,margin:0});
+  slide.addShape(pptx.ShapeType.roundRect,{x:.7,y:4.55,w:11.95,h:1.55,rectRadius:.05,fill:{color:'F5F7FA'},line:{color:'E1E6ED',width:1}});
+  slide.addText(facilities.length?facilities.join('، '):'لا توجد زيارات في الفترة المحددة',{x:.95,y:4.85,w:11.45,h:.9,fontFace:'Arial',fontSize:13,color:'333333',align:'right',valign:'mid',rtlMode:true,margin:.02,fit:'shrink'});
+
+  // Visit slides
+  for(let idx=0;idx<sorted.length;idx++){
+    const v=sorted[idx], compliance=clamp(v.compliance), good=compliance>=80;
+    slide=pptx.addSlide(); addHeader(pptx,slide,`تفاصيل الزيارة ${idx+1}`,`${v.facility||facilityText} — ${pptDate(v.date)}`);
+    addKeyValue(slide,pptx,'المنشأة',v.facility||'-',6.75,1.55);
+    addKeyValue(slide,pptx,'الإمارة',v.emirate||'-',.7,1.55);
+    addKeyValue(slide,pptx,'تاريخ الزيارة',pptDate(v.date),6.75,2.35);
+    addKeyValue(slide,pptx,'الإدارة / الفريق',v.team||'-',.7,2.35);
+    addKeyValue(slide,pptx,'موظف الاتصال',v.employeeName||'-',6.75,3.15);
+    addKeyValue(slide,pptx,'المسمى الوظيفي',v.employeeJobTitle||'-',.7,3.15);
+    addKeyValue(slide,pptx,'المسؤول',v.responsible||'-',6.75,3.95);
+    addKeyValue(slide,pptx,'المسمى الوظيفي للمسؤول',v.jobTitle||'-',.7,3.95);
+    addKeyValue(slide,pptx,'التصنيف',v.category||'-',6.75,4.75);
+    addKeyValue(slide,pptx,'الأولوية',v.priority||'-',.7,4.75);
+    slide.addShape(pptx.ShapeType.roundRect,{x:6.75,y:5.55,w:5.65,h:.62,rectRadius:.06,fill:{color:good?'EAF8F1':'FDEDEC'},line:{color:good?'B7E5CE':'F3C2BE',width:1}});
+    slide.addText('نسبة الالتزام',{x:6.95,y:5.68,w:2,h:.2,fontFace:'Arial',fontSize:9,color:gray,align:'right',rtlMode:true,margin:0});
+    slide.addText(`${compliance}% — ${v.status||''}`,{x:8.95,y:5.65,w:3.2,h:.25,fontFace:'Arial',fontSize:13,bold:true,color:good?green:red,align:'right',rtlMode:true,margin:0});
+    slide.addShape(pptx.ShapeType.roundRect,{x:.7,y:5.55,w:5.65,h:.62,rectRadius:.06,fill:{color:'FFFFFF'},line:{color:'E2E7EE',width:1}});
+    slide.addText('جهة المتابعة',{x:.9,y:5.68,w:2,h:.2,fontFace:'Arial',fontSize:9,color:gray,align:'right',rtlMode:true,margin:0});
+    slide.addText(v.ownerName||v.ownerUsername||'-',{x:3.0,y:5.65,w:3.0,h:.25,fontFace:'Arial',fontSize:11,bold:true,color:'222222',align:'right',rtlMode:true,margin:0});
+
+    slide=pptx.addSlide(); addHeader(pptx,slide,`الملاحظات والإجراءات — الزيارة ${idx+1}`,`${v.facility||facilityText} — ${pptDate(v.date)}`);
+    addTextBlock(slide,pptx,'ملاحظات الزيارة',v.notes||'لا توجد ملاحظات إضافية.',1.55);
+    addTextBlock(slide,pptx,'الإجراء المطلوب',v.action||'لا يوجد إجراء مطلوب.',3.0);
+    addTextBlock(slide,pptx,'الإجراء المتخذ',v.takenAction||'لم يتم تسجيل إجراء متخذ.',4.45);
+
+    const imageUrls=Array.isArray(v.images)?v.images:[];
+    if(imageUrls.length){
+      const imageData=[];
+      for(const url of imageUrls.slice(0,6)){const data=await fetchImageData(url);if(data)imageData.push(data);}
+      for(let i=0;i<imageData.length;i+=2){
+        slide=pptx.addSlide(); addHeader(pptx,slide,'صور الزيارة',`${v.facility||facilityText} — الزيارة ${idx+1}`);
+        const group=imageData.slice(i,i+2);
+        group.forEach((data,j)=>{
+          const x=j===0?6.85:.65;
+          slide.addShape(pptx.ShapeType.roundRect,{x,y:1.55,w:5.85,h:5.2,rectRadius:.04,fill:{color:'FFFFFF'},line:{color:'E2E7EE',width:1}});
+          slide.addImage({data,x:x+.12,y:1.68,w:5.6,h:4.65,sizingContain:true});
+          slide.addText(`صورة ${i+j+1}`,{x:x+.2,y:6.45,w:5.4,h:.2,fontFace:'Arial',fontSize:8,color:gray,align:'center',rtlMode:true,margin:0});
+        });
+      }
+    }
+  }
+
+  if(!sorted.length){
+    slide=pptx.addSlide(); addHeader(pptx,slide,'لا توجد زيارات في الفترة المحددة',`${facilityText} — ${pptDate(from)} إلى ${pptDate(to)}`);
+    slide.addText('لم يتم العثور على أي زيارة مطابقة للمنشأة والفترة المحددة.',{x:1.2,y:3.1,w:10.9,h:.6,fontFace:'Arial',fontSize:18,color:gray,align:'center',rtlMode:true,margin:0});
+  }
+  const filename=`EHS_${kind==='visit'?'VisitReport':'MonthlyReport'}_${safeName(title)}_${String(from).replace(/-/g,'')}_${String(to).replace(/-/g,'')}.pptx`;
+  const blob=await pptx.write({outputType:'blob'});
+  return {blob,filename};
+}
+
+function reportCard(x,monthly){return `<article class="report-item"><div class="report-item-head"><div><span class="report-type">${monthly?'تقرير شهري':'تقرير زيارة'}</span><h3>${esc(x.title)}</h3><div class="meta">${monthly?('من '+fmt(x.dateFrom)+' إلى '+fmt(x.dateTo)):(fmt(x.dateFrom)+(x.facility?' · '+esc(x.facility):''))}</div></div><button class="danger-btn delete-report" type="button" data-id="${esc(x.id)}" data-kind="${monthly?'monthly':'visit'}">حذف</button></div>${x.file?.url?`<div class="report-file"><span>📊</span><div><strong>${esc(x.file.name||'PowerPoint')}</strong><small>محفوظ داخل SQL Server</small></div><a class="secondary" download href="${esc(x.file.url)}">تحميل PowerPoint</a></div>`:'<div class="meta" style="margin-top:10px">ملف PowerPoint غير متاح.</div>'}</article>`;}
+async function load(kind){const listEl=$(kind==='visit'?'visitList':'monthlyList');const endpoint=kind==='visit'?'/api/reports/visit':'/api/reports/monthly';listEl.innerHTML='<div class="empty-report">جاري تحميل البيانات من SQL Server...</div>';try{const rows=await readResponse(await fetch(endpoint,{cache:'no-store',credentials:'same-origin',headers:{Accept:'application/json'}}));const list=Array.isArray(rows)?rows:[];listEl.innerHTML=list.length?list.map(x=>reportCard(x,kind==='monthly')).join(''):`<div class="empty-report">لا توجد تقارير ${kind==='visit'?'زيارات':'شهرية'} حتى الآن.</div>`;listEl.querySelectorAll('.delete-report').forEach(btn=>btn.addEventListener('click',async ev=>{ev.preventDefault();if(!confirm('هل أنت متأكد من حذف هذا التقرير؟'))return;try{await readResponse(await fetch('/api/reports/'+encodeURIComponent(btn.dataset.id),{method:'DELETE',cache:'no-store',credentials:'same-origin',headers:{Accept:'application/json'}}));await load(btn.dataset.kind);}catch(e){alert('تعذر حذف التقرير: '+e.message);}}));}catch(e){listEl.innerHTML=`<div class="empty-report"><strong>تعذر تحميل التقارير</strong><br>${esc(e.message)}</div>`;}}
+function facilityTypeOf(f){
+  const n=normalize(`${f?.name||''} ${f?.englishName||''}`);
+  if(n.includes('مستشفى') || n.includes('hospital')) return 'مستشفى';
+  if(n.includes('مركز') || n.includes('center') || n.includes('centre')) return 'مركز صحي';
+  return 'منشأة صحية';
+}
+function setupFacilityFilters(){
+  const search=$('reportFacilitySearch'), emirate=$('reportFacilityEmirate'), type=$('reportFacilityType'), btn=$('reportFacilitySearchBtn');
+  if(!search||!emirate||!type||!btn) return;
+  if(btn.dataset.ready==='1') return;
+  btn.dataset.ready='1';
+  const master=Array.isArray(window.EHS_FACILITIES)?window.EHS_FACILITIES:[];
+  const emirates=[...new Set(master.map(f=>String(f.emirate||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ar'));
+  emirate.innerHTML='<option value="">كل الإمارات</option>'+emirates.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
+  type.innerHTML='<option value="">كل أنواع المنشآت</option><option value="مستشفى">مستشفى</option><option value="مركز صحي">مركز صحي</option><option value="منشأة صحية">منشأة صحية</option>';
+  const apply=()=>{
+    const q=normalize(search.value), e=normalize(emirate.value), t=normalize(type.value);
+    const select=$('visitFacility');
+    const current=select?.value||'';
+    const options=master.filter(f=>{
+      const text=normalize(`${f.name||''} ${f.englishName||''}`);
+      return (!q||text.includes(q)) && (!e||normalize(f.emirate)===e) && (!t||normalize(facilityTypeOf(f))===t);
+    }).sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''),'ar'));
+    if(!select) return;
+    select.innerHTML='<option value="">اختر المنشأة</option>'+options.map(f=>`<option value="${esc(f.name||'')}">${esc(f.name||'')}${f.emirate?' — '+esc(f.emirate):''}</option>`).join('');
+    if(current && options.some(f=>String(f.name||'')===current)) select.value=current;
+    const count=$('reportFacilityCount'); if(count) count.textContent=`عدد المنشآت المطابقة: ${options.length}`;
+  };
+  btn.addEventListener('click',apply);
+  search.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();apply();}});
+  emirate.addEventListener('change',apply);
+  type.addEventListener('change',apply);
+  apply();
+}
+async function loadFacilities(){
+  const select=$('visitFacility');
+  try{
+    const master=Array.isArray(window.EHS_FACILITIES)?window.EHS_FACILITIES:[];
+    const rows=await fetchVisits();
+    const visitedNames=new Set(rows.map(x=>String(x.facility||'').trim()).filter(Boolean));
+    const masterNames=master.map(x=>String(x.name||'').trim()).filter(Boolean);
+    // The report selector is based on the complete master facility list, not only facilities already visited.
+    // Keep older visit names too, so historical data remains selectable.
+    const all=[...new Map([...masterNames,...visitedNames].map(name=>[normalize(name),name])).values()]
+      .sort((a,b)=>a.localeCompare(b,'ar'));
+    select.innerHTML='<option value="">اختر المنشأة</option>'+all.map(n=>{
+      const m=master.find(x=>normalize(x.name)===normalize(n));
+      const label=m?.emirate?`${n} — ${m.emirate}`:n;
+      return '<option value="'+esc(n)+'">'+esc(label)+'</option>';
+    }).join('');
+    if(typeof setupFacilityFilters==='function') setupFacilityFilters();
+  }catch(e){
+    console.error('Facility master load failed:',e);
+    select.innerHTML='<option value="">تعذر تحميل المنشآت</option>';
+  }
+}
+function triggerDownload(blob,filename){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);}
+async function saveGeneratedReport(kind){
+  const monthly=kind==='monthly';
+  const title=$(monthly?'monthlyTitle':'visitTitle').value.trim();
+  const from=$(monthly?'monthlyFrom':'visitDateFrom').value;
+  const to=$(monthly?'monthlyTo':'visitDateTo').value;
+  const facility=monthly?'':$('visitFacility').value;
+  if(!title)throw new Error('عنوان التقرير مطلوب.');
+  if(!from||!to)throw new Error('يجب اختيار التاريخ من وإلى.');
+  if(from>to)throw new Error('تاريخ البداية يجب أن يكون قبل أو مساويًا لتاريخ النهاية.');
+  if(!monthly&&!facility)throw new Error('يرجى اختيار المنشأة.');
+  const all=await fetchVisits();
+  const visits=all.filter(v=>inRange(v,from,to)&&(monthly||normalize(v.facility)===normalize(facility)));
+  const generated=await generateReportPowerPoint({kind,title,from,to,facility,visits});
+  const fd=new FormData();
+  fd.append('Title',title); fd.append('DateFrom',from); fd.append('DateTo',to); fd.append('Facility',facility);
+  fd.append('Description',`تم إنشاء PowerPoint تلقائيًا. عدد الزيارات المشمولة: ${visits.length}.`);
+  fd.append('File',generated.blob,generated.filename);
+  const endpoint=monthly?'/api/reports/monthly':'/api/reports/visit';
+  const saved=await readResponse(await fetch(endpoint,{method:'POST',body:fd,cache:'no-store',credentials:'same-origin',headers:{Accept:'application/json'}}));
+  // Download only after SQL Server confirms the report is saved.
+  triggerDownload(generated.blob,generated.filename);
+  return {saved,visitsCount:visits.length};
+}
+function openVisitForm(){clearError('visitError');$('monthlyForm').classList.add('hidden');$('visitForm').classList.remove('hidden');$('visitTitle').focus();$('visitForm').scrollIntoView({behavior:'smooth',block:'center'});}
+function openMonthlyForm(){clearError('monthlyError');$('visitForm').classList.add('hidden');$('monthlyForm').classList.remove('hidden');$('monthlyTitle').focus();$('monthlyForm').scrollIntoView({behavior:'smooth',block:'center'});}
+function showSection(which){const visit=which==='visit';$('visitChoice').classList.toggle('active',visit);$('monthlyChoice').classList.toggle('active',!visit);$('visitSection').classList.toggle('hidden-section',!visit);$('monthlySection').classList.toggle('hidden-section',visit);if(visit){$('monthlyForm').classList.add('hidden');load('visit');}else{$('visitForm').classList.add('hidden');load('monthly');}window.scrollTo({top:0,behavior:'smooth'});}
+function setup(){
+  $('visitDateFrom').value=today;$('visitDateTo').value=today;$('monthlyFrom').value=today;$('monthlyTo').value=today;loadFacilities();
+  $('addVisitBtn').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openVisitForm();});
+  $('addMonthlyBtn').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openMonthlyForm();});
+  $('visitChoice').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();showSection('visit');});
+  $('monthlyChoice').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();showSection('monthly');});
+  $('cancelVisit').addEventListener('click',e=>{e.preventDefault();$('visitForm').classList.add('hidden');clearError('visitError');});
+  $('cancelMonthly').addEventListener('click',e=>{e.preventDefault();$('monthlyForm').classList.add('hidden');clearError('monthlyError');});
+  $('visitForm').addEventListener('submit',async e=>{e.preventDefault();e.stopPropagation();clearError('visitError');const b=e.target.querySelector('button[type="submit"]');b.disabled=true;b.textContent='جاري إنشاء PowerPoint...';try{const r=await saveGeneratedReport('visit');e.target.reset();$('visitDateFrom').value=today;$('visitDateTo').value=today;await loadFacilities();e.target.classList.add('hidden');await load('visit');alert(`تم إنشاء التقرير وحفظه داخل SQL Server وتنزيله على جهازك.\nعدد الزيارات المشمولة: ${r.visitsCount}`);}catch(err){showError('visitError','تعذر إنشاء تقرير الزيارة: '+err.message);}finally{b.disabled=false;b.textContent='إنشاء تقرير الزيارة';}});
+  $('monthlyForm').addEventListener('submit',async e=>{e.preventDefault();e.stopPropagation();clearError('monthlyError');const b=e.target.querySelector('button[type="submit"]');b.disabled=true;b.textContent='جاري إنشاء PowerPoint...';try{const r=await saveGeneratedReport('monthly');e.target.reset();$('monthlyFrom').value=today;$('monthlyTo').value=today;e.target.classList.add('hidden');await load('monthly');alert(`تم إنشاء التقرير الشهري وحفظه داخل SQL Server وتنزيله على جهازك.\nعدد الزيارات المشمولة: ${r.visitsCount}`);}catch(err){showError('monthlyError','تعذر إنشاء التقرير الشهري: '+err.message);}finally{b.disabled=false;b.textContent='إنشاء التقرير الشهري';}});
+  showSection('visit');
+}
+document.addEventListener('DOMContentLoaded',setup);
+})();
+</script>
+</body></html>

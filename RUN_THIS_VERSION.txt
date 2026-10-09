@@ -1,0 +1,9 @@
+EHS REPORTS FINAL V20
+
+1) Close every old EHS/Visual Studio run first.
+2) Open EHS_FieldVisits_SQLServer.sln from THIS folder.
+3) Run the project EHS_FieldVisits_SQLServer.
+4) Open https://localhost:7188/reports.html
+5) Hard refresh with Ctrl+F5.
+
+V20 layout: visit report form keeps title/date on first row; date range uses the same compact filter style as the dashboard; facility is on its own row; report file is directly below the facility. Visit and monthly reports remain fully separated.

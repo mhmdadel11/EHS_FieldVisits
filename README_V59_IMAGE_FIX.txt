@@ -1,0 +1,1 @@
+V59: Visit images are served through an authenticated ASP.NET endpoint /api/visits/{id}/image/{fileName}. Details page now uses that endpoint for SQL-backed images. This avoids static-file/tunnel issues and preserves authorization.

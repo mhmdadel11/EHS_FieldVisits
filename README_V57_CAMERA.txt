@@ -1,0 +1,1 @@
+V57: Added always-visible camera buttons. On mobile, "كاميرا الموبايل" uses input capture=environment for direct camera launch; browser getUserMedia modal remains available via "تصوير بالكاميرا". Multiple photos can be combined with file selection.

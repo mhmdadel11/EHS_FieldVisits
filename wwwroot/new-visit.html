@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>زيارة جديدة - EHS</title>
+  <link rel="stylesheet" href="css/style.css?v=69-corrective-compact">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-logo">EHS</div><div><strong>EHS</strong><span>Prototype</span></div></div>
+    <nav>
+      <a class="nav-item" href="index.html"><span>▣</span> لوحة التحكم</a>
+      <a class="nav-item active" href="new-visit.html"><span>⌖</span> الزيارات الميدانية</a>
+     
+      <a class="nav-item" href="responsibles.html"><span>♙</span> دليل المسؤولين</a><a class="nav-item" href="employees.html"><span>♟</span> دليل الموظفين</a>
+      <a class="nav-item" href="reports.html"><span>▥</span> التقارير</a>
+      <a class="nav-item" href="index.html#identity"><span>⌂</span> الهوية المؤسسية</a>
+     
+    </nav>
+  </aside>
+  <main class="main">
+    <header class="header">
+      <div class="title-area"><h1 id="pageTitle">تسجيل زيارة ميدانية جديدة</h1><div id="formCrumb" class="crumb">لوحة التحكم <b>‹</b> الزيارات الميدانية <b>‹</b> زيارة جديدة</div></div>
+      <div class="header-actions"><a class="back-btn" href="index.html">← العودة للرئيسية</a></div>
+    </header>
+    <form id="visitForm" class="visit-form">
+      <div class="form-grid">
+        <label>المنشأة *<input id="facility" list="facilityOptions" required placeholder="اكتب أو اختر اسم المنشأة"><datalist id="facilityOptions"></datalist></label>
+        <label>الإمارة
+          <select id="emirate"><option>الشارقة</option><option>دبي</option><option>عجمان</option><option>الفجيرة</option><option>رأس الخيمة</option><option>أم القيوين</option><option>أبوظبي</option></select>
+        </label>
+        <label>تاريخ الزيارة *<input id="visitDate" type="date" required></label>
+        <label>الإدارة<input id="team"></label>
+                       
+        
+        <label>اسم موظف الاتصال<input id="contactEmployee" placeholder="اسم الموظف"></label>
+       <br>
+        <strong>بيانات منسق المنشأة</strong>
+        <br>
+        <label>اسم المسؤول من المنشأة<input id="responsible" ></label>
+        <label>المسمى الوظيفي<input id="jobTitle" ></label>
+        <label>البريد الإلكتروني<input id="responsibleEmail" type="email" ></label>
+        <label>رقم الهاتف<input id="responsiblePhone" ></label>
+
+
+        <label>التصنيف<select id="category"><option>الهوية المؤسسية</option><option>جودة الخدمة</option><option>السلامة</option><option>التواصل</option></select></label>
+        <label>الأولوية<select id="priority"><option>متوسطة</option><option>عالية</option><option>منخفضة</option></select></label>
+        <label>الحالة<select id="status"><option>ملتزم</option><option>بحاجة متابعة</option><option>غير ملتزم</option></select></label>
+        <label>نسبة الالتزام %<input id="compliance" type="number" min="0" max="100" value="92"></label>
+        <div class="wide visit-notes-section" id="visitNotesSection">
+          <label class="visit-notes-label">ملاحظات الزيارة</label>
+          <button type="button" class="visit-notes-toggle" id="visitNotesToggle" aria-expanded="false" aria-controls="visitNotesBody">
+            <span id="notesToggleText">إضافة ملاحظة...</span><span class="notes-chevron" id="notesChevron">⌄</span>
+          </button>
+          <div class="visit-notes-body" id="visitNotesBody" hidden>
+            <div id="visitNotesList" class="visit-notes-list"></div>
+          </div>
+          <textarea id="notes" name="notes" hidden aria-hidden="true"></textarea>
+        </div>
+        <label class="wide">الإجراء المطلوب<textarea id="action" placeholder="اكتب الإجراء المطلوب..."></textarea></label>
+<div class="wide upload">
+    <label>
+        صور الزيارة
+
+        <div class="image-upload-actions" role="group" aria-label="إضافة صور الزيارة">
+            <button type="button" id="openCameraBtn" class="camera-btn">📷 تصوير بالكاميرا</button>
+            <label for="cameraInput" class="camera-mobile-btn">📱 كاميرا الموبايل</label>
+            <label for="images" class="choose-images-btn">📁 اختيار صور</label>
+            <input id="cameraInput" type="file" accept="image/*" capture="environment" multiple style="display:none">
+            <input id="images" type="file" accept="image/*" multiple style="display:none">
+        </div>
+
+        <small>
+            يمكنك تصوير أكثر من صورة بالكاميرا أو اختيار صور من الجهاز، وإضافة 3 أو 4 صور أو أكثر قبل الحفظ.
+        </small>
+    </label>
+
+    <div id="imagePreview" class="image-preview image-count-only"></div>
+</div>      </div>
+      <div class="form-actions"><a href="index.html" class="secondary">إلغاء</a><button id="saveBtn" class="primary" type="submit">حفظ الزيارة</button></div>
+    </form>
+  </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+<script src="js/auth.js?v=20260910-user-ui"></script><script src="js/db-api.js?v=68"></script>
+<script src="js/facilities.js?v=31"></script>
+<script src="js/visits.js?v=69"></script>
+<script src="js/camera-capture-v57.js?v=68"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const input=document.getElementById('facility');
+  const list=document.getElementById('facilityOptions');
+  const master=Array.isArray(window.EHS_FACILITIES)?window.EHS_FACILITIES:[];
+  if(list) list.innerHTML=master.map(f=>`<option value="${String(f.name||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${String(f.emirate||'')}</option>`).join('');
+  const norm=v=>String(v||'').replace(/[\u064B-\u065F\u0670]/g,'').replace(/[إأآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ـ/g,'').replace(/\s+/g,' ').trim().toLowerCase();
+  input?.addEventListener('change',()=>{
+    const q=norm(input.value);
+    const hit=master.find(f=>norm(f.name)===q || (f.englishName && norm(f.englishName)===q));
+    if(hit){
+      input.value=hit.name;
+      const em=document.getElementById('emirate');
+      if(em && !em.value) em.value=hit.emirate||'';
+    }
+  });
+});
+</script>
+<script>
+(function(){
+  'use strict';
+
+  const section=document.getElementById('visitNotesSection');
+  const toggle=document.getElementById('visitNotesToggle');
+  const body=document.getElementById('visitNotesBody');
+  const list=document.getElementById('visitNotesList');
+  const toggleText=document.getElementById('notesToggleText');
+  const hidden=document.getElementById('notes');
+  const compliance=document.getElementById('compliance');
+  if(!section||!toggle||!body||!list||!toggleText||!hidden||!compliance) return;
+
+  const NOTE_DEDUCTION=3;
+  let baseCompliance=null;
+  let initializing=false;
+
+  function clamp(n){return Math.max(0,Math.min(100,n));}
+
+  function readBase(){
+    const n=Number(compliance.value);
+    baseCompliance=Number.isFinite(n)?clamp(n):92;
+    compliance.dataset.baseCompliance=String(baseCompliance);
+  }
+
+  function noteInputs(){
+    return Array.from(list.querySelectorAll('.visit-note-input'));
+  }
+
+  function nonEmptyNotes(){
+    return noteInputs().map(x=>x.value.trim()).filter(Boolean);
+  }
+
+  function updateCompliance(){
+    if(baseCompliance===null){
+      const stored=Number(compliance.dataset.baseCompliance);
+      baseCompliance=Number.isFinite(stored)?clamp(stored):92;
+    }
+
+    const notes=nonEmptyNotes();
+    hidden.value=notes.join('\n');
+    toggleText.textContent=notes.length ? `تمت إضافة ${notes.length} ملاحظة` : 'إضافة ملاحظة...';
+
+    const result=clamp(baseCompliance-(notes.length*NOTE_DEDUCTION));
+    compliance.value=String(result);
+
+    // Automatic status rule:
+    // If compliance drops below 80%, change the visit status to "غير ملتزم" immediately.
+    if(result < 80){
+      const status=document.getElementById('status');
+      if(status) status.value='غير ملتزم';
+    }
+
+    compliance.dispatchEvent(new Event('change',{bubbles:true}));
+  }
+
+  function bindInput(input){
+    if(!input || input.dataset.noteBound==='1') return;
+    input.dataset.noteBound='1';
+    input.addEventListener('input',updateCompliance);
+    input.addEventListener('change',updateCompliance);
+  }
+
+  function createNote(value=''){
+    const row=document.createElement('div');
+    row.className='visit-note-row';
+    row.innerHTML=`
+      <textarea class="visit-note-input" placeholder="اكتب الملاحظة..."></textarea>
+      <button type="button" class="remove-note-btn" aria-label="حذف الملاحظة">−</button>
+      <button type="button" class="add-note-inline-btn" aria-label="إضافة ملاحظة">+</button>`;
+
+    const input=row.querySelector('.visit-note-input');
+    input.value=value;
+    bindInput(input);
+
+    row.querySelector('.remove-note-btn').addEventListener('click',function(){
+      row.remove();
+      if(noteInputs().length===0) createNote('');
+      updateCompliance();
+    });
+
+    row.querySelector('.add-note-inline-btn').addEventListener('click',function(){
+      createNote('');
+    });
+
+    list.appendChild(row);
+    if(!initializing) input.focus();
+    updateCompliance();
+  }
+
+  function setOpen(open){
+    toggle.setAttribute('aria-expanded',open?'true':'false');
+    body.hidden=!open;
+    section.classList.toggle('open',open);
+  }
+
+  toggle.addEventListener('click',function(){setOpen(body.hidden);});
+
+  // Also react if the compliance value is changed by any other field/script.
+  function enforceStatusFromCompliance(){
+    const value=Number(compliance.value);
+    const status=document.getElementById('status');
+    if(status && Number.isFinite(value) && value < 80){
+      status.value='غير ملتزم';
+    }
+  }
+  compliance.addEventListener('input',enforceStatusFromCompliance);
+  compliance.addEventListener('change',enforceStatusFromCompliance);
+
+  window.EHSVisitNotes={
+    init(values){
+      initializing=true;
+      list.innerHTML='';
+      const arr=Array.isArray(values)?values.map(v=>String(v||'').trim()).filter(Boolean):[];
+
+      // In edit mode, the saved compliance already contains note deductions.
+      // Restore the original base so each note is counted exactly once.
+      const saved=Number(compliance.value);
+      if(Number.isFinite(saved)){
+        baseCompliance=clamp(saved+(arr.length*NOTE_DEDUCTION));
+      }else{
+        readBase();
+      }
+      compliance.dataset.baseCompliance=String(baseCompliance);
+
+      if(arr.length){
+        arr.forEach(v=>createNote(v));
+      }else{
+        createNote('');
+      }
+      initializing=false;
+      updateCompliance();
+      setOpen(false);
+    },
+    getNotes(){return nonEmptyNotes();},
+    sync:updateCompliance
+  };
+
+  // Initial value is the starting percentage (normally 92%).
+  readBase();
+  createNote('');
+  setOpen(false);
+
+  // Extra safety: if the note row is changed by another script, keep the
+  // percentage synchronized immediately.
+  const observer=new MutationObserver(function(){
+    noteInputs().forEach(bindInput);
+    updateCompliance();
+  });
+  observer.observe(list,{childList:true,subtree:true});
+})();
+</script>
+</script>
+</body>
+</html>

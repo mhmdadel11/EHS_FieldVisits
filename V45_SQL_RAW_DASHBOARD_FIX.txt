@@ -1,0 +1,1 @@
+V45: dashboard now loads visits/count directly with SqlConnection raw SQL, bypassing EF schema mismatch; reports filters preserved.

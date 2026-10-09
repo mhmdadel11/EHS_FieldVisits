@@ -1,0 +1,5 @@
+<Project>
+  <Target Name="EnsureStaticWebAssetsDirectory" BeforeTargets="GenerateStaticWebAssetsPropsFile">
+    <MakeDir Directories="$(StaticWebAssetsIntermediatePath)" Condition="'$(StaticWebAssetsIntermediatePath)' != ''" />
+  </Target>
+</Project>

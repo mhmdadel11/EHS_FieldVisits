@@ -1,0 +1,1 @@
+V50: Facility directory cards now read visit data directly from SQL Server and refresh automatically on ehsVisitsLoaded. Selecting a facility and saving a visit updates its card from "لم تتم زيارتها بعد" to "عدد الزيارات: N" without relying on visits.js/readVisits().

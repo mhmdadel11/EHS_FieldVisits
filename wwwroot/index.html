@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نظام إدارة الزيارات الميدانية - EHS</title>
+  <link rel="stylesheet" href="css/style.css">
+
+<style id="facility-directory-polished">
+/* دليل المنشآت - تصميم مستقل حتى لا يتأثر بأي CSS آخر */
+.facility-directory{direction:rtl!important;display:block!important;width:100%!important;margin:30px 0 24px!important;padding:18px!important;background:#fff!important;border:1px solid #dfe6ef!important;border-radius:12px!important;box-shadow:0 2px 10px rgba(28,55,90,.06)!important;box-sizing:border-box!important;clear:both!important;visibility:visible!important;opacity:1!important}
+.facility-directory-filter{direction:rtl!important;display:flex!important;align-items:flex-end!important;gap:12px!important;flex-wrap:nowrap!important;width:100%!important;margin:0 0 18px!important;background:#f7f9fc!important;border-radius:8px!important;padding:14px 12px!important;border:1px solid #e3e9f1!important;box-sizing:border-box!important;position:sticky!important;top:15px!important}
+.facility-directory-filter h2{margin:0 0 9px!important;flex:0 0 auto!important;font-size:17px!important;font-weight:800!important;color:#15263d!important;text-align:right!important}
+.facility-directory-filter label{display:flex!important;flex-direction:column!important;flex:1 1 0!important;min-width:0!important;margin:0!important;font-size:12px!important;font-weight:700!important;color:#24354b!important;text-align:right!important}
+.facility-directory-filter input,.facility-directory-filter select{display:block!important;width:100%!important;height:38px!important;margin-top:6px!important;padding:0 10px!important;border:1px solid #cfd9e6!important;border-radius:7px!important;background:#fff!important;color:#26374d!important;font-family:inherit!important;font-size:11px!important;outline:none!important;box-sizing:border-box!important}
+.facility-directory-filter input:focus,.facility-directory-filter select:focus{border-color:#4b82bb!important;box-shadow:0 0 0 3px rgba(75,130,187,.10)!important}
+.facility-directory-filter button{display:block!important;flex:0 0 90px!important;width:90px!important;height:37px!important;border:0!important;border-radius:6px!important;background:#315d82!important;color:#fff!important;font-family:inherit!important;font-size:11px!important;font-weight:700!important;cursor:pointer!important;margin-top:4px!important}
+.facility-directory-content{direction:rtl!important;width:100%!important;min-width:0!important;display:block!important;visibility:visible!important}
+.facility-directory-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:16px 14px!important;visibility:visible!important}
+.facility-card{min-width:0!important;min-height:190px!important;padding:13px 13px 10px!important;background:#fff!important;border:1px solid #8ba9c7!important;border-radius:7px!important;display:flex!important;flex-direction:column!important;text-align:right!important;direction:rtl!important;box-sizing:border-box!important;visibility:visible!important;opacity:1!important;transition:box-shadow .15s ease,transform .15s ease,border-color .15s ease!important}
+.facility-card:hover{box-shadow:0 6px 16px rgba(37,73,110,.10)!important;transform:translateY(-1px)!important;border-color:#5f89ae!important}
+.facility-card h3{margin:0 0 8px!important;color:#121c29!important;font-size:16px!important;line-height:1.35!important;font-weight:800!important;min-height:43px!important}
+.facility-kind{margin:0 0 7px!important;color:#516477!important;font-size:10px!important;line-height:1.5!important}
+.facility-hours{color:#27394d!important;font-size:9.5px!important;line-height:1.7!important;min-height:56px!important}
+.facility-hours strong{font-size:10px!important;color:#1b2e45!important}
+.facility-meta{margin-top:auto!important;padding-top:8px!important;border-top:1px solid #e7edf4!important;display:flex!important;justify-content:space-between!important;gap:8px!important;color:#60738a!important;font-size:9px!important;line-height:1.4!important}
+.facility-card.not-visited .facility-meta span:last-child{color:#d33d3d!important;font-weight:800!important}
+.facility-card.visited .facility-meta span:last-child{color:#168b58!important;font-weight:800!important}
+.facility-details-btn{margin-top:7px!important;padding:3px 0!important;border:0!important;background:transparent!important;color:#315d82!important;font-family:inherit!important;font-size:10px!important;font-weight:700!important;text-align:right!important;cursor:pointer!important}
+.facility-details-btn:hover{text-decoration:underline!important}
+.facility-directory-pager{display:flex!important;direction:rtl!important;justify-content:center!important;align-items:center!important;gap:8px!important;border-top:1px solid #aab8c7!important;margin-top:16px!important;padding-top:12px!important;font-size:10px!important}
+.pager-btn,.pager-number{border:0!important;background:transparent!important;color:#3b4e64!important;font-family:inherit!important;cursor:pointer!important;padding:3px 6px!important;font-size:10px!important}
+.pager-number.active{width:23px!important;height:23px!important;padding:0!important;display:grid!important;place-items:center!important;background:#315d82!important;color:#fff!important;border-radius:50%!important}
+.pager-dots{color:#718096!important}
+.facility-directory-details{grid-column:1/-1!important;display:none!important;direction:rtl!important;margin-top:0!important;padding:14px!important;border:1px solid #d6e0eb!important;border-radius:8px!important;background:#f8fafc!important}
+.facility-directory-details.open{display:block!important}
+.facility-detail-title{display:flex!important;justify-content:space-between!important;align-items:center!important;color:#172b43!important;font-size:14px!important}
+.facility-detail-title button{width:30px!important;height:30px!important;border:0!important;border-radius:50%!important;background:#e9f1f9!important;color:#315d82!important;font-size:20px!important;cursor:pointer!important}
+.facility-detail-dates{display:flex!important;flex-wrap:wrap!important;gap:7px!important;margin-top:9px!important}
+.facility-detail-dates span{background:#fff!important;border:1px solid #d7e2ed!important;border-radius:5px!important;padding:6px 10px!important;font-size:10px!important}
+.facility-empty{padding:40px!important;text-align:center!important;color:#718096!important;grid-column:1/-1!important}
+@media(max-width:1050px){.facility-directory-filter{position:static!important;flex-wrap:wrap!important}.facility-directory-filter h2{width:100%!important}.facility-directory-filter label{flex:1 1 30%!important}.facility-directory-filter button{flex:0 0 100px!important}.facility-directory-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:650px){.facility-directory-filter{flex-direction:column!important;align-items:stretch!important}.facility-directory-filter label,.facility-directory-filter button{width:100%!important;flex:1 1 auto!important}.facility-directory-grid{grid-template-columns:1fr!important}}
+</style>
+
+
+</head>
+<body>
+<div class="app index-layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">EHS</div>
+      <div><strong>EHS</strong><span>Prototype</span></div>
+    </div>
+    <nav>
+      <a class="nav-item active" href="index.html"><span>▣</span> لوحة التحكم</a>
+      <a class="nav-item" href="new-visit.html"><span>⌖</span> الزيارات الميدانية</a>
+      
+      <a class="nav-item" href="responsibles.html"><span>♙</span> دليل المسؤولين</a><a class="nav-item" href="employees.html"><span>♟</span> دليل الموظفين</a>
+      <a class="nav-item" href="reports.html"><span>▥</span> التقارير</a>
+      <a class="nav-item" href="https://www.ehs.gov.ae/assets/f9df1e62/guidline.aspx"><span>⌂</span> الهوية المؤسسية</a>
+      
+    </nav>
+   
+  </aside>
+
+  <main class="main">
+    <header class="header">
+      <div class="title-area">
+        <h1>نظام إدارة الزيارات الميدانية</h1>
+        <div class="crumb">لوحة التحكم <b>‹</b> الزيارات الميدانية</div>
+      </div>
+      <div class="header-actions">
+        <div class="filter-box"><label>من <input id="fromDate" type="date"></label><label>إلى <input id="toDate" type="date"></label><button id="clearFilter" type="button">مسح</button></div>
+      </div>
+    </header>
+
+    <section class="kpis">
+      <div class="kpi">
+        <div class="kpi-icon green">♢</div>
+        <div><span>الزيارات الميدانية</span><strong id="totalVisits">0</strong></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-icon purple">▥</div>
+        <div><span>منشآت تمت زيارتها</span><strong id="facilitiesVisited">0</strong><small>من أصل 121 منشأة</small></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-icon blue">☑</div>
+        <div><span>الزيارات المكتملة</span><strong id="completedVisits">0</strong></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-icon teal">♢</div>
+        <div><span>متوسط الالتزام</span><strong id="avgCompliance">0%</strong><small class="positive">+5% عن الشهر السابق</small></div>
+      </div>
+    </section>
+
+    <section class="grid top-grid">
+      <div class="panel chart-panel">
+        <div class="panel-head"><h2>نسبة الالتزام حسب المنشأة</h2></div>
+        <div id="facilityChart" class="bar-chart"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2>آخر الزيارات</h2><a href="new-visit.html">+ زيارة جديدة</a></div>
+        <div id="recentVisits" class="recent-list"></div>
+      </div>
+    </section>
+
+    <section class="grid bottom-grid">
+      <div class="panel">
+        <div class="panel-head"><h2>حالة الالتزام</h2></div>
+        <div class="donut-wrap">
+          <div id="donut" class="donut"><div><strong id="donutTotal">0</strong><span>زيارة</span></div></div>
+          <div id="legend" class="legend"></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2>نسبة الالتزام حسب الإمارة</h2></div>
+        <div id="emirateChart" class="h-bars"></div>
+      </div>
+      <div class="panel details" id="detailsPanel">
+        <div class="panel-head detail-head"><h2>تفاصيل الزيارة</h2><button id="closeDetails">×</button></div>
+        <div id="detailsContent"></div>
+      </div>
+    </section>
+
+
+    <!-- دليل المنشآت - في نهاية الصفحة -->
+    <section class="facility-directory" id="facilityDirectory" aria-label="دليل المنشآت">
+      <div class="facility-directory-filter">
+        <h2>الفلاتر</h2>
+        <label>البحث
+          <input id="facilityDirectorySearch" type="search" placeholder="اكتب كلمة البحث...">
+        </label>
+        <label>الإمارة
+          <select id="facilityDirectoryEmirate">
+            <option value="">الإمارة</option>
+            <option>أبوظبي</option><option>دبي</option><option>الشارقة</option><option>عجمان</option><option>أم القيوين</option><option>رأس الخيمة</option><option>الفجيرة</option>
+          </select>
+        </label>
+        <label>نوع المنشأة
+          <select id="facilityDirectoryType">
+            <option value="">نوع المنشأة</option>
+            <option>مستشفى</option><option>مركز صحي</option><option>منشأة صحية</option>
+          </select>
+        </label>
+        <button type="button" id="facilityDirectoryClear">بحث</button>
+      </div>
+      <div class="facility-directory-content">
+        <div id="facilityDirectoryGrid" class="facility-directory-grid"></div>
+        <div id="facilityDirectoryPager" class="facility-directory-pager"></div>
+      </div>
+      <div id="facilityDirectoryDetails" class="facility-directory-details"></div>
+    </section>
+
+  </main>
+</div>
+<script src="js/auth.js?v=20260910-user-ui"></script><script src="js/db-api.js?v=53"></script>
+<script src="js/facilities.js?v=31"></script>
+<script src="js/app.js?v=53-sql-fix"></script>
+<script src="js/facilities-directory.js?v=54"></script>
+<script src="js/facility-counter-v54.js?v=54-final"></script>
+</body>
+</html>
